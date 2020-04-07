@@ -69,7 +69,7 @@ class App extends React.Component{
       this.setState(state)
     }
 
-    if(parseInt(state.playedSeconds) % 10 === 0){
+    if(parseInt(state.playedSeconds) % 1 === 0){
       
       this.setState({addItem:true})
       
