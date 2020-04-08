@@ -17,6 +17,7 @@ class App extends React.Component{
       onPlay: false,
       duration: 0,
       addItem: false,
+      event: {X:0 , Y:0},
       
     }
 
@@ -36,6 +37,12 @@ class App extends React.Component{
    
   }
 
+  getEvent(){
+
+    return(this.state.event)
+  }
+
+
   handleChange = (event)=>{
     this.setState({inputValue : event.target.value})
   }
@@ -48,8 +55,9 @@ class App extends React.Component{
   addNewItem = (e) =>{
     console.log(e);
 
-    const New= 'X:'+e.nativeEvent.offsetX+' Y:'+e.nativeEvent.offsetY;
-    this.setState({pos:[...this.state.pos, New]});
+ /*   const New= 'X:'+e.nativeEvent.offsetX+' Y:'+e.nativeEvent.offsetY;
+    this.setState({pos:[...this.state.pos, New]});*/
+    this.setState({event:{X:e.nativeEvent.offsetX, Y:e.nativeEvent.offsetY}})
   }
 
   handleDuration = (duration) => {
@@ -60,8 +68,25 @@ class App extends React.Component{
 
   handlePlay = () => {
     console.log('onPlay')
+    setInterval(()=>{
+
+      if(this.state.playing){
+        const New= 'X:'+this.state.event.X+' Y:'+this.state.event.Y;
+    this.setState({pos:[...this.state.pos, New]});
+      }
+      
+
+    },5000)
     this.setState({ playing: true })
   }
+
+
+  handlePause = () =>{
+    console.log('onPaused')
+    this.setState({ playing: false })
+  }
+
+
 
   handleProgress = state => {
     console.log('onProgress', parseInt(state.playedSeconds))
@@ -69,7 +94,7 @@ class App extends React.Component{
       this.setState(state)
     }
 
-    if(parseInt(state.playedSeconds) % 1 === 0){
+    if(parseInt(state.playedSeconds) % 5 === 0){
       
       this.setState({addItem:true})
       
@@ -97,7 +122,7 @@ class App extends React.Component{
 
   
   
-    console.log(this.state.pos, this.state.url )
+    console.log(this.state.pos /*, this.state.url*/ )
 
     return (
       <div className="App">
@@ -109,6 +134,7 @@ class App extends React.Component{
           controls={false} 
           className='react-player'
           onPlay={this.handlePlay}
+          onPause={this.handlePause}
           onDuration= {this.handleDuration.bind(this)}   
           onProgress={this.handleProgress.bind(this)}   
           />
@@ -118,12 +144,11 @@ class App extends React.Component{
        
         </header>
         <div>
-          <img onMouseMove={this.onMouseMove} width="650" height="350" src={ima} />
+          <img ref="imagen" onMouseMove={(e)=>{ this.onMouseMove(e)}} width="650" height="350" src={ima} />
         </div>
-        <h1>Mouse coordinates: { x } { y }</h1>
 
 
-        <button onClick={this.descargar.bind(this)} >DEscargar</button>
+        <button className="descarga" onClick={this.descargar.bind(this)} >Descargar Resultados</button>
         
         <div className="imgA">
           
@@ -135,3 +160,4 @@ class App extends React.Component{
 }
 
 export default App;
+
