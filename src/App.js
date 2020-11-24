@@ -10,7 +10,7 @@ class App extends React.Component{
 
     this.state = {
       inputValue : "",
-      url:"https://www.youtube.com/watch?v=g6gBDJrGNt4",
+      url:"https://www.youtube.com/watch?v=AWi6WAODnaY&feature=youtu.be",
       pos: [],
       x: 0,
       y: 0,
